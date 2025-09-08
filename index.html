@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Portal - বাংলাদেশের শীর্ষ সংবাদ</title>
+    <style>
+        :root {
+            --primary-color: #e53e3e;
+            --secondary-color: #2d3748;
+            --background-light: #f7fafc;
+            --background-dark: #1a202c;
+            --text-light: #2d3748;
+            --text-dark: #e2e8f0;
+            --card-light: #ffffff;
+            --card-dark: #2d3748;
+        }
+
+        .light-mode {
+            --bg-color: var(--background-light);
+            --text-color: var(--text-light);
+            --card-bg: var(--card-light);
+        }
+
+        .dark-mode {
+            --bg-color: var(--background-dark);
+            --text-color: var(--text-dark);
+            --card-bg: var(--card-dark);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar input {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .search-bar button {
+            padding: 8px 12px;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* Category Navigation */
+        .category-nav {
+            background-color: var(--card-bg);
+            padding: 1rem 0;
+            margin: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .categories {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            padding: 0.5rem 0;
+        }
+
+        .category-btn {
+            padding: 8px 16px;
+            background: var(--bg-color);
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .category-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* News Grid */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .news-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .news-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 1rem;
+        }
+
+        .news-category {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .news-excerpt {
+            color: #718096;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #718096;
+        }
+
+        /* Breaking News */
+        .breaking-news {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 0;
+            margin: 1rem 0;
+        }
+
+        .breaking-news-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .breaking-label {
+            background: white;
+            color: var(--primary-color);
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-right: 1rem;
+            font-weight: bold;
+        }
+
+        .breaking-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        #loader {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #cbd5e0;
+            text-decoration: none;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #4a5568;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <header>
+        <div class="container header-content">
+            <div class="logo">NewsPortal</div>
+            <nav>
+                <ul>
+                    <li><a href="#">হোম</a></li>
+                    <li><a href="#">জাতীয়</a></li>
+                    <li><a href="#">আন্তর্জাতিক</a></li>
+                    <li><a href="#">খেলাধুলা</a></li>
+                    <li><a href="#">বিনোদন</a></li>
+                    <li><a href="#">টেকনোলজি</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="search-bar">
+                    <input type="text" placeholder="খুঁজুন...">
+                    <button>🔍</button>
+                </div>
+                <button class="theme-toggle" id="themeToggle">🌙</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="breaking-news">
+        <div class="container breaking-news-content">
+            <span class="breaking-label">ব্রেকিং নিউজ</span>
+            <div class="breaking-text" id="breakingText">
+                সর্বশেষ সংবাদের জন্য অপেক্ষা করুন...
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="category-nav">
+            <div class="categories">
+                <button class="category-btn active" data-category="সব খবর">সব খবর</button>
+                <button class="category-btn" data-category="জাতীয়">জাতীয়</button>
+                <button class="category-btn" data-category="আন্তর্জাতিক">আন্তর্জাতিক</button>
+                <button class="category-btn" data-category="খেলাধুলা">খেলাধুলা</button>
+                <button class="category-btn" data-category="বিনোদন">বিনোদন</button>
+                <button class="category-btn" data-category="টেকনোলজি">টেকনোলজি</button>
+                <button class="category-btn" data-category="লাইফস্টাইল">লাইফস্টাইল</button>
+            </div>
+        </div>
+
+        <div class="news-grid" id="news-grid">
+            <!-- News cards will be dynamically loaded here -->
+            <p id="loader">খবর লোড হচ্ছে...</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>NewsPortal</h3>
+                    <p>বাংলাদেশের নির্ভরযোগ্য ও প্রিয় সংবাদ মাধ্যম</p>
+                </div>
+                <div class="footer-section">
+                    <h3>ক্যাটাগরি</h3>
+                    <ul>
+                        <li><a href="#">জাতীয়</a></li>
+                        <li><a href="#">আন্তর্জাতিক</a></li>
+                        <li><a href="#">খেলাধুলা</a></li>
+                        <li><a href="#">বিনোদন</a></li>
+                        <li><a href="#">টেকনোলজি</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>লিংক</h3>
+                    <ul>
+                        <li><a href="#">আমাদের সম্পর্কে</a></li>
+                        <li><a href="#">যোগাযোগ</a></li>
+                        <li><a href="#">গোপনীয়তা নীতি</a></li>
+                        <li><a href="#">শর্তাবলী</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>সামাজিক মাধ্যম</h3>
+                    <ul>
+                        <li><a href="#">ফেসবুক</a></li>
+                        <li><a href="#">টুইটার</a></li>
+                        <li><a href="#">ইনস্টাগ্রাম</a></li>
+                        <li><a href="#">ইউটিউব</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2024 NewsPortal - সকল স্বত্ব সংরক্ষিত
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <script>
+        // -- START: Firebase Configuration --
+        // গুরুত্বপূর্ণ: এই অংশটি আপনার নিজের Firebase প্রজেক্টের কনফিগারেশন দিয়ে পরিবর্তন করুন
+        const firebaseConfig = {
+            apiKey: "AIzaSyCNQuQuzGSd8PkoqLyKxrZ0QJakSyrS4y0",
+            authDomain: "nahidvai80.firebaseapp.com",
+            projectId: "nahidvai80",
+            storageBucket: "nahidvai80.firebasestorage.app",
+            messagingSenderId: "452800032231",
+            appId: "1:452800032231:web:7534c2d6f0bb62b8b1e142"
+        };
+        // -- END: Firebase Configuration --
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('themeToggle');
+            const body = document.body;
+            const breakingTextEl = document.getElementById('breakingText');
+            const newsGrid = document.getElementById('news-grid');
+            const categoryButtons = document.querySelectorAll('.category-btn');
+
+            // --- Dark Mode Toggle ---
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                body.classList.toggle('light-mode');
+                const isDarkMode = body.classList.contains('dark-mode');
+                themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            });
+
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                themeToggle.textContent = '☀️';
+            }
+
+            // --- Load News from Firestore ---
+            const loadNews = (category = "সব খবর") => {
+                newsGrid.innerHTML = '<p id="loader">খবর লোড হচ্ছে...</p>';
+
+                let query = db.collection('articles').orderBy('timestamp', 'desc');
+                
+                if (category !== "সব খবর") {
+                    query = query.where('category', '==', category);
+                }
+
+                query.get().then(snapshot => {
+                    if (snapshot.empty) {
+                        newsGrid.innerHTML = '<p>এই ক্যাটাগরিতে কোনো খবর পাওয়া যায়নি।</p>';
+                        return;
+                    }
+
+                    let newsHTML = '';
+                    snapshot.forEach(doc => {
+                        const news = doc.data();
+                        const date = news.timestamp ? new Date(news.timestamp.seconds * 1000).toLocaleDateString('bn-BD') : 'তারিখ নেই';
+                        
+                        newsHTML += `
+                            <div class="news-card">
+                                <img src="${news.imageUrl || 'https://via.placeholder.com/300x200'}" alt="News Image">
+                                <div class="news-content">
+                                    <span class="news-category">${news.category}</span>
+                                    <h3 class="news-title">${news.title}</h3>
+                                    <p class="news-excerpt">${news.excerpt}</p>
+                                    <div class="news-meta">
+                                        <span>${date}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    newsGrid.innerHTML = newsHTML;
+                }).catch(error => {
+                    console.error("Error fetching news: ", error);
+                    newsGrid.innerHTML = '<p>খবর লোড করতে সমস্যা হয়েছে।</p>';
+                });
+            };
+
+            // --- Load Breaking News from Firestore ---
+            const loadBreakingNews = () => {
+                // আপনি অ্যাডমিন প্যানেল থেকে breakingNews নামে একটি কালেকশন তৈরি করে নিউজ যোগ করতে পারেন
+                db.collection('breakingNews').orderBy('timestamp', 'desc').limit(5).get().then(snapshot => {
+                    const breakingNews = [];
+                    snapshot.forEach(doc => {
+                        breakingNews.push(doc.data().text); // 'text' ফিল্ডে ব্রেকিং নিউজ থাকবে
+                    });
+
+                    if (breakingNews.length > 0) {
+                        let currentNewsIndex = 0;
+                        const updateBreakingNews = () => {
+                            breakingTextEl.textContent = breakingNews[currentNewsIndex];
+                            currentNewsIndex = (currentNewsIndex + 1) % breakingNews.length;
+                        };
+                        updateBreakingNews();
+                        setInterval(updateBreakingNews, 5000); // প্রতি ৫ সেকেন্ডে পরিবর্তন
+                    } else {
+                        breakingTextEl.textContent = "এখন কোনো ব্রেকিং নিউজ নেই।";
+                    }
+                }).catch(err => {
+                    console.error("Error fetching breaking news: ", err);
+                    breakingTextEl.textContent = "ব্রেকিং নিউজ লোড করা যায়নি।";
+                });
+            };
+            
+            // --- Category Filter ---
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    const selectedCategory = button.getAttribute('data-category');
+                    loadNews(selectedCategory);
+                });
+            });
+
+            // Initial Load
+            loadNews();
+            loadBreakingNews();
+        });
+    </script>
+</body>
+</html>
