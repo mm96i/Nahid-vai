@@ -3,461 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>অ্যাডমিন প্যানেল - NewsPortal</title>
-    
-    <!-- Google Fonts & Icons -->
+    <title>এডমিন প্যানেল</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #3b82f6; --secondary-color: #1f2937;
-            --background-color: #f3f4f6; --text-color: #374151;
-            --card-bg: #ffffff; --success-color: #10b981;
-            --danger-color: #ef4444; --hover-primary: #2563eb;
-            --sidebar-text: #d1d5db;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Hind Siliguri', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-        }
-
-        /* Login Page */
-        #login-page { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-        .login-container { width: 100%; max-width: 400px; padding: 2rem; background: var(--card-bg); border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); margin: 1rem; }
-        .login-container h2 { text-align: center; margin-bottom: 2rem; color: var(--secondary-color); font-size: 1.8rem; font-weight: 600; }
-        .form-group { margin-bottom: 1.25rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
-        .form-group input { width: 100%; padding: 12px 15px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem; }
-        .form-group input:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); }
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 8px; color: white; background-color: var(--primary-color); font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: background-color 0.3s; }
-        .btn:hover { background-color: var(--hover-primary); }
-        #login-error { color: var(--danger-color); text-align: center; margin-top: 1rem; display: none; }
-
-        /* Admin Panel */
-        #admin-panel { display: none; }
-        .admin-wrapper { display: flex; }
-
-        /* Sidebar */
-        .sidebar {
-            width: 260px;
-            background: var(--secondary-color);
-            color: var(--sidebar-text);
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1001;
-            transform: translateX(-100%);
-            transition: transform 0.3s ease-in-out;
-        }
-        .sidebar.open { transform: translateX(0); }
-        .sidebar-header { padding: 1.5rem; text-align: center; font-size: 1.8rem; font-weight: 700; color: white; border-bottom: 1px solid #374151; }
-        .sidebar-nav { list-style: none; flex-grow: 1; padding: 1rem 0; }
-        .sidebar-nav a { display: flex; align-items: center; gap: 12px; padding: 1rem 1.5rem; color: var(--sidebar-text); text-decoration: none; border-radius: 8px; margin: 0.5rem 1rem; transition: background-color 0.3s, color 0.3s; font-weight: 500; }
-        .sidebar-nav a:hover, .sidebar-nav a.active { background-color: var(--primary-color); color: white; }
-        .sidebar-nav a .icon { width: 20px; text-align: center; }
-        .sidebar-footer { padding: 1.5rem; }
-        #logout-btn { width: 100%; padding: 12px; border: none; border-radius: 8px; color: white; background: var(--danger-color); font-size: 1rem; cursor: pointer; font-weight: 600; }
-
-        /* Main Content */
-        .main-content { flex: 1; padding: 1rem; overflow-y: auto; max-height: 100vh; margin-left: 0; transition: margin-left 0.3s ease-in-out; }
-        .main-header { display: flex; align-items: center; justify-content: space-between; background: var(--card-bg); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .menu-toggle { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-color); }
-        .page { display: none; }
-        .page.active { display: block; }
-        .content-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;}
-        .content-header h1 { font-size: 1.5rem; font-weight: 700; }
-        .primary-btn { background-color: var(--primary-color); color: white; padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 500; }
-        .success-btn { background-color: var(--success-color); }
-        .danger-btn { background-color: var(--danger-color); }
-
-        /* Dashboard Stats */
-        .stats-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
-        .stat-card { background: var(--card-bg); padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .stat-card h3 { font-size: 1rem; color: #6b7280; }
-        .stat-card p { font-size: 2rem; font-weight: 700; }
-
-        /* Table & Mobile Cards */
-        .table-wrapper { background: var(--card-bg); padding: 1rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .news-table { width: 100%; border-collapse: collapse; display: none; /* Hidden on mobile */ }
-        .news-table th, .news-table td { padding: 14px; border-bottom: 1px solid #e5e7eb; text-align: left; }
-        .news-table th { background-color: #f9fafb; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; }
-        .actions-cell button { margin-right: 8px; padding: 6px 12px; border: none; color: white; border-radius: 6px; cursor: pointer; }
-        
-        /* Mobile News Cards */
-        #news-cards-mobile { display: grid; gap: 1rem; }
-        .news-card-mobile { background: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); padding: 1rem; }
-        .news-card-mobile h4 { font-size: 1.1rem; margin-bottom: 0.5rem; }
-        .news-card-mobile p { background: #f3f4f6; padding: 4px 8px; border-radius: 6px; display: inline-block; margin-bottom: 1rem; font-size: 0.9rem; }
-        .news-card-mobile .actions-cell { display: flex; gap: 0.5rem; }
-        
-        /* Modal */
-        .modal { display: none; position: fixed; z-index: 1002; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
-        .modal-content { background-color: #fefefe; padding: 1.5rem; border-radius: 12px; width: 95%; max-width: 800px; max-height: 90vh; overflow-y: auto; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid #e5e7eb; padding-bottom: 1rem; }
-        .modal-header h2 { font-size: 1.25rem; }
-        .close-btn { color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
-
-        /* Breaking News */
-        .breaking-news-item { background: var(--card-bg); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        #breaking-news-form { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
-        #breaking-news-form input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; }
-
-        /* Overlay for sidebar */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-        }
-        .overlay.active { display: block; }
-        
-        /* Desktop Styles */
-        @media (min-width: 768px) {
-            .sidebar { transform: translateX(0); position: relative; }
-            .admin-wrapper { position: relative; }
-            .main-content { margin-left: 260px; padding: 2rem; }
-            .menu-toggle { display: none; }
-            .main-header { display: none; }
-            .content-header h1 { font-size: 2rem; }
-            .stats-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-            .news-table { display: table; }
-            #news-cards-mobile { display: none; }
-            #breaking-news-form { flex-direction: row; }
-            .login-container { padding: 2.5rem; }
-            .modal-content { padding: 2.5rem; }
-        }
+        :root { --primary-color: #d82028; --secondary-color: #222222; }
+        body { font-family: 'Hind Siliguri', sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .login-container, .admin-panel { background-color: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1, h2 { text-align: center; color: var(--secondary-color); }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; font-family: 'Hind Siliguri', sans-serif; }
+        button { width: 100%; padding: 12px; background-color: var(--primary-color); color: #fff; border: none; border-radius: 4px; font-size: 18px; cursor: pointer; transition: background-color 0.2s; }
+        button:hover { background-color: #b01820; }
+        #admin-panel { display: none; } /* Initially hidden */
+        .posts-list .post-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
+        .posts-list .post-item:last-child { border-bottom: none; }
+        .post-item-actions button { width: auto; padding: 5px 10px; font-size: 14px; margin-left: 5px; }
+        .btn-edit { background-color: #28a745; }
+        .btn-delete { background-color: #dc3545; }
+        #logout-btn { background-color: var(--secondary-color); margin-top: 20px; }
     </style>
 </head>
 <body>
 
-    <div id="login-page">
-        <!-- Login form remains same -->
-        <div class="login-container">
-            <h2>অ্যাডমিন লগইন</h2>
+    <div class="container">
+        <!-- Login Section -->
+        <div id="login-container" class="login-container">
+            <h1>এডমিন লগইন</h1>
             <form id="login-form">
                 <div class="form-group">
-                    <label for="email">ইমেল</label>
+                    <label for="email">ইমেইল</label>
                     <input type="email" id="email" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">পাসওয়ার্ড</label>
+                    <label for="password">পাসওয়ার্ড</label>
                     <input type="password" id="password" required>
                 </div>
-                <button type="submit" class="btn">লগইন করুন</button>
-                <p id="login-error"></p>
+                <button type="submit">লগইন করুন</button>
             </form>
         </div>
-    </div>
 
-    <div id="admin-panel">
-        <div class="admin-wrapper">
-            <div id="overlay" class="overlay"></div>
-            <aside class="sidebar" id="sidebar">
-                 <div class="sidebar-header">NewsPortal</div>
-                <ul class="sidebar-nav">
-                    <li><a href="#" class="nav-link active" data-page="dashboard"><i class="icon fas fa-tachometer-alt"></i> ড্যাশবোর্ড</a></li>
-                    <li><a href="#" class="nav-link" data-page="manage-news"><i class="icon fas fa-newspaper"></i> খবর ম্যানেজ</a></li>
-                    <li><a href="#" class="nav-link" data-page="breaking-news"><i class="icon fas fa-bolt"></i> ব্রেকিং নিউজ</a></li>
-                </ul>
-                <div class="sidebar-footer">
-                     <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> লগ আউট</button>
-                </div>
-            </aside>
-            <main class="main-content">
-                <header class="main-header">
-                    <button id="menu-toggle" class="menu-toggle"><i class="fas fa-bars"></i></button>
-                    <h2 style="font-size: 1.2rem;">অ্যাডমিন প্যানেল</h2>
-                </header>
-                
-                <div id="dashboard" class="page active">
-                    <!-- Dashboard content remains same -->
-                    <div class="content-header"><h1>ড্যাশবোর্ডে স্বাগতম</h1></div>
-                     <div class="stats-grid">
-                        <div class="stat-card"><h3>মোট খবর</h3><p id="total-news-count">...</p></div>
-                        <div class="stat-card"><h3>ক্যাটাগরি</h3><p>৬</p></div>
-                    </div>
-                </div>
-
-                <div id="manage-news" class="page">
-                    <div class="content-header">
-                        <h1>খবরের তালিকা</h1>
-                        <button class="primary-btn" id="add-news-btn"><i class="fas fa-plus"></i> নতুন খবর</button>
-                    </div>
-                    <div class="table-wrapper">
-                        <!-- Desktop Table -->
-                        <table class="news-table">
-                            <thead>
-                                <tr><th>শিরোনাম</th><th>ক্যাটাগরি</th><th>অ্যাকশন</th></tr>
-                            </thead>
-                            <tbody id="news-list"></tbody>
-                        </table>
-                        <!-- Mobile Cards -->
-                        <div id="news-cards-mobile"></div>
-                    </div>
-                </div>
-                
-                <div id="breaking-news" class="page">
-                    <!-- Breaking news content remains same -->
-                     <div class="content-header"><h1>ব্রেকিং নিউজ ম্যানেজ করুন</h1></div>
-                    <div class="table-wrapper">
-                        <h3>নতুন ব্রেকিং নিউজ যোগ করুন</h3>
-                        <form id="breaking-news-form">
-                            <input type="text" id="breaking-news-text" placeholder="ব্রেকিং নিউজ টেক্সট..." required>
-                            <button type="submit" class="primary-btn">যোগ করুন</button>
-                        </form>
-                        <h3 style="margin-top: 2rem;">বর্তমান ব্রেকিং নিউজ</h3>
-                        <div id="breaking-news-list"></div>
-                    </div>
-                </div>
-            </main>
-        </div>
-    </div>
-    
-    <div id="news-modal" class="modal">
-        <!-- Modal content remains same -->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modal-title">নতুন খবর যোগ করুন</h2>
-                <span class="close-btn">&times;</span>
-            </div>
-            <form id="news-form">
-                <input type="hidden" id="news-id">
+        <!-- Admin Panel Section -->
+        <div id="admin-panel">
+            <h1>এডমিন প্যানেল</h1>
+            <form id="post-form">
+                <input type="hidden" id="postId">
                 <div class="form-group">
                     <label for="title">শিরোনাম</label>
                     <input type="text" id="title" required>
                 </div>
                 <div class="form-group">
                     <label for="category">ক্যাটাগরি</label>
-                    <select id="category" required style="width: 100%; padding: 12px 15px; border: 1px solid #d1d5db; border-radius: 8px;">
-                        <option value="জাতীয়">জাতীয়</option><option value="আন্তর্জাতিক">আন্তর্জাতিক</option><option value="খেলাধুলা">খেলাধুলা</option>
-                        <option value="বিনোদন">বিনোদন</option><option value="টেকনোলজি">টেকনোলজি</option><option value="লাইফস্টাইল">লাইফস্টাইল</option>
+                    <select id="category" required>
+                        <option value="সাতক্ষীরা">সাতক্ষীরা</option>
+                        <option value="জাতীয়">জাতীয়</option>
+                        <option value="খেলাধুলা">খেলাধুলা</option>
+                        <option value="রাজনীতি">রাজনীতি</option>
+                        <option value="বিনোদন">বিনোদন</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="imageUrl">ছবির URL</label>
-                    <input type="text" id="imageUrl" placeholder="ছবির লিংক এখানে দিন">
+                    <label for="content">বিস্তারিত</label>
+                    <textarea id="content" rows="10" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="content">বিস্তারিত</label>
-                    <div id="editor"></div>
+                    <label for="image">ছবি</label>
+                    <input type="file" id="image" accept="image/*">
                 </div>
-                <button type="submit" class="btn">সংরক্ষণ করুন</button>
+                <button type="submit" id="submit-btn">পোস্ট করুন</button>
             </form>
+
+            <hr style="margin: 30px 0;">
+
+            <h2>সকল পোস্ট</h2>
+            <div id="posts-list" class="posts-list"></div>
+            
+            <button id="logout-btn">লগ আউট</button>
         </div>
     </div>
 
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    <!-- CKEditor SDK -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/35.3.2/classic/ckeditor.js"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
 
     <script>
-        // Firebase Config remains same
+        // আপনার ফায়ারবেস কনফিগারেশন এখানে পেস্ট করুন
         const firebaseConfig = {
-            apiKey: "AIzaSyCNQuQuzGSd8PkoqLyKxrZ0QJakSyrS4y0",
-            authDomain: "nahidvai80.firebaseapp.com",
-            projectId: "nahidvai80",
-            storageBucket: "nahidvai80.firebasestorage.app",
-            messagingSenderId: "452800032231",
-            appId: "1:452800032231:web:7534c2d6f0bb62b8b1e142"
-        };
-        firebase.initializeApp(firebaseConfig);
+             apiKey: "AIzaSyA3peBw2W7I80YoCTEpPVCnXelVLUQZMDE",
+  authDomain: "satkhira-post.firebaseapp.com",
+  projectId: "satkhira-post",
+  storageBucket: "satkhira-post.firebasestorage.app",
+  messagingSenderId: "236510973672",
+  appId: "1:236510973672:web:f83aa94577f1e99ddb435d",
+  measurementId: "G-ELJFVZ64YJ"
+};
+        // Firebase শুরু করুন
+        const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
-        const articlesCollection = db.collection('articles');
-        const breakingNewsCollection = db.collection('breakingNews');
-        let editor;
+        const storage = firebase.storage();
 
-        ClassicEditor
-            .create(document.querySelector('#editor'))
-            .then(newEditor => { editor = newEditor; })
-            .catch(error => { console.error(error); });
+        const loginContainer = document.getElementById('login-container');
+        const adminPanel = document.getElementById('admin-panel');
+        const loginForm = document.getElementById('login-form');
+        const postForm = document.getElementById('post-form');
+        const postsList = document.getElementById('posts-list');
+        const logoutBtn = document.getElementById('logout-btn');
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const loginPage = document.getElementById('login-page');
-            const adminPanel = document.getElementById('admin-panel');
-            const loginForm = document.getElementById('login-form');
-            const loginError = document.getElementById('login-error');
-            const logoutBtn = document.getElementById('logout-btn');
-            
-            const navLinks = document.querySelectorAll('.nav-link');
-            const pages = document.querySelectorAll('.page');
-            
-            const modal = document.getElementById('news-modal');
-            const addNewsBtn = document.getElementById('add-news-btn');
-            const closeModalBtn = document.querySelector('.close-btn');
-            const newsForm = document.getElementById('news-form');
-            const newsList = document.getElementById('news-list');
-            const newsCardsMobile = document.getElementById('news-cards-mobile');
-            const modalTitle = document.getElementById('modal-title');
-            const newsIdInput = document.getElementById('news-id');
-            const totalNewsCountEl = document.getElementById('total-news-count');
-            
-            // Mobile navigation
-            const menuToggle = document.getElementById('menu-toggle');
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
-
-            const breakingNewsForm = document.getElementById('breaking-news-form');
-            const breakingNewsList = document.getElementById('breaking-news-list');
-            
-            // --- Mobile Sidebar Toggle ---
-            menuToggle.addEventListener('click', () => {
-                sidebar.classList.toggle('open');
-                overlay.classList.toggle('active');
-            });
-            overlay.addEventListener('click', () => {
-                sidebar.classList.remove('open');
-                overlay.classList.remove('active');
-            });
-
-
-            // --- Authentication ---
-            auth.onAuthStateChanged(user => {
-                if (user) {
-                    loginPage.style.display = 'none';
-                    adminPanel.style.display = 'block';
-                    renderNews(); 
-                    renderBreakingNews();
-                } else {
-                    loginPage.style.display = 'block';
-                    adminPanel.style.display = 'none';
-                }
-            });
-
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const email = e.target.email.value;
-                const password = e.target.password.value;
-                auth.signInWithEmailAndPassword(email, password)
-                    .catch(error => {
-                        loginError.textContent = 'ভুল ইমেল অথবা পাসওয়ার্ড!';
-                        loginError.style.display = 'block';
-                    });
-            });
-
-            logoutBtn.addEventListener('click', () => { auth.signOut(); });
-
-            // --- Navigation ---
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    navLinks.forEach(nav => nav.classList.remove('active'));
-                    link.classList.add('active');
-                    const pageId = link.getAttribute('data-page');
-                    pages.forEach(page => {
-                        page.classList.toggle('active', page.id === pageId);
-                    });
-                    // Close sidebar on mobile after navigation
-                    if (window.innerWidth < 768) {
-                        sidebar.classList.remove('open');
-                        overlay.classList.remove('active');
-                    }
-                });
-            });
-
-            // --- Render News (for both table and cards) ---
-            function renderNews() {
-                articlesCollection.orderBy('timestamp', 'desc').onSnapshot(snapshot => {
-                    newsList.innerHTML = '';
-                    newsCardsMobile.innerHTML = '';
-                    totalNewsCountEl.textContent = snapshot.size;
-                    
-                    if (snapshot.empty) {
-                        const emptyMsg = '<p style="text-align:center; padding: 1rem;">কোনো খবর পাওয়া যায়নি।</p>';
-                        newsList.innerHTML = `<tr><td colspan="3">${emptyMsg}</td></tr>`;
-                        newsCardsMobile.innerHTML = emptyMsg;
-                        return;
-                    }
-
-                    snapshot.forEach(doc => {
-                        const news = doc.data();
-                        const actionsHTML = `
-                            <button class="success-btn" onclick="editNews('${doc.id}')"><i class="fas fa-edit"></i> এডিট</button>
-                            <button class="danger-btn" onclick="deleteNews('${doc.id}')"><i class="fas fa-trash"></i> ডিলিট</button>
-                        `;
-
-                        // Create table row for desktop
-                        const row = document.createElement('tr');
-                        row.innerHTML = `<td>${news.title}</td><td>${news.category}</td><td class="actions-cell">${actionsHTML}</td>`;
-                        newsList.appendChild(row);
-
-                        // Create card for mobile
-                        const card = document.createElement('div');
-                        card.className = 'news-card-mobile';
-                        card.innerHTML = `
-                            <h4>${news.title}</h4>
-                            <p>${news.category}</p>
-                            <div class="actions-cell">${actionsHTML}</div>
-                        `;
-                        newsCardsMobile.appendChild(card);
-                    });
-                });
+        // Check user auth state
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                loginContainer.style.display = 'none';
+                adminPanel.style.display = 'block';
+                loadPosts();
+            } else {
+                loginContainer.style.display = 'block';
+                adminPanel.style.display = 'none';
             }
-
-            // --- All other functions (deleteNews, editNews, modal handling, form submission, breaking news) remain the same ---
-            window.deleteNews = function(id) { if (confirm('আপনি কি এই খবরটি মুছে ফেলতে চান?')) articlesCollection.doc(id).delete(); }
-            window.editNews = function(id) {
-                articlesCollection.doc(id).get().then(doc => {
-                    if (doc.exists) {
-                        const news = doc.data();
-                        modalTitle.textContent = 'খবর এডিট করুন';
-                        newsIdInput.value = doc.id;
-                        document.getElementById('title').value = news.title;
-                        document.getElementById('category').value = news.category;
-                        editor.setData(news.content || '');
-                        document.getElementById('imageUrl').value = news.imageUrl;
-                        modal.style.display = 'flex';
-                    }
-                });
-            }
-            addNewsBtn.addEventListener('click', () => {
-                modalTitle.textContent = 'নতুন খবর যোগ করুন'; newsForm.reset(); editor.setData(''); newsIdInput.value = ''; modal.style.display = 'flex';
-            });
-            closeModalBtn.addEventListener('click', () => modal.style.display = 'none');
-            window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
-            newsForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const id = newsIdInput.value;
-                const newsData = {
-                    title: document.getElementById('title').value, category: document.getElementById('category').value,
-                    content: editor.getData(), imageUrl: document.getElementById('imageUrl').value || 'https://via.placeholder.com/400x250',
-                };
-                if (id) { articlesCollection.doc(id).update(newsData); } 
-                else { newsData.timestamp = firebase.firestore.FieldValue.serverTimestamp(); articlesCollection.add(newsData); }
-                modal.style.display = 'none';
-            });
-            breakingNewsForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const textInput = document.getElementById('breaking-news-text');
-                if(textInput.value.trim() === '') return;
-                breakingNewsCollection.add({ text: textInput.value, timestamp: firebase.firestore.FieldValue.serverTimestamp() })
-                    .then(() => { textInput.value = ''; });
-            });
-            function renderBreakingNews() {
-                breakingNewsCollection.orderBy('timestamp', 'desc').onSnapshot(snapshot => {
-                    breakingNewsList.innerHTML = snapshot.empty ? '<p>এখন কোনো ব্রেকিং নিউজ নেই।</p>' : '';
-                    snapshot.forEach(doc => {
-                        const item = document.createElement('div');
-                        item.className = 'breaking-news-item';
-                        item.innerHTML = `<span>${doc.data().text}</span> <button class="danger-btn" onclick="deleteBreakingNews('${doc.id}')"><i class="fas fa-trash"></i></button>`;
-                        breakingNewsList.appendChild(item);
-                    });
-                });
-            }
-            window.deleteBreakingNews = function(id) { if (confirm('আপনি কি এই ব্রেকিং নিউজটি মুছে ফেলতে চান?')) breakingNewsCollection.doc(id).delete(); }
         });
+
+        // Login
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = loginForm.email.value;
+            const password = loginForm.password.value;
+            auth.signInWithEmailAndPassword(email, password)
+                .catch(error => alert(error.message));
+        });
+
+        // Logout
+        logoutBtn.addEventListener('click', () => {
+            auth.signOut();
+        });
+
+        // Save or Update Post
+        postForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const postId = postForm.postId.value;
+            const title = postForm.title.value;
+            const category = postForm.category.value;
+            const content = postForm.content.value;
+            const imageFile = postForm.image.files[0];
+
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'প্রসেসিং...';
+
+            try {
+                let imageUrl = '';
+                if (imageFile) {
+                    const storageRef = storage.ref(`images/${Date.now()}_${imageFile.name}`);
+                    const snapshot = await storageRef.put(imageFile);
+                    imageUrl = await snapshot.ref.getDownloadURL();
+                }
+
+                const postData = {
+                    title,
+                    category,
+                    content,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                
+                if(imageUrl) {
+                    postData.imageUrl = imageUrl;
+                }
+
+                if (postId) {
+                    // Update existing post
+                    await db.collection('posts').doc(postId).update(postData);
+                    alert('পোস্ট সফলভাবে আপডেট হয়েছে!');
+                } else {
+                    // Create new post
+                    await db.collection('posts').add(postData);
+                    alert('পোস্ট সফলভাবে সাবমিট হয়েছে!');
+                }
+                
+                postForm.reset();
+                loadPosts();
+            } catch (error) {
+                console.error("Error saving post: ", error);
+                alert('একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'পোস্ট করুন';
+            }
+        });
+        
+        // Load all posts in admin panel
+        async function loadPosts() {
+            const snapshot = await db.collection('posts').orderBy('timestamp', 'desc').get();
+            postsList.innerHTML = '';
+            snapshot.forEach(doc => {
+                const post = doc.data();
+                const postItem = document.createElement('div');
+                postItem.className = 'post-item';
+                postItem.innerHTML = `
+                    <span>${post.title}</span>
+                    <div class="post-item-actions">
+                        <button class="btn-edit" onclick="editPost('${doc.id}')">এডিট</button>
+                        <button class="btn-delete" onclick="deletePost('${doc.id}')">ডিলিট</button>
+                    </div>
+                `;
+                postsList.appendChild(postItem);
+            });
+        }
+        
+        // Edit post
+        async function editPost(id) {
+            const doc = await db.collection('posts').doc(id).get();
+            const post = doc.data();
+            postForm.postId.value = id;
+            postForm.title.value = post.title;
+            postForm.category.value = post.category;
+            postForm.content.value = post.content;
+            document.getElementById('submit-btn').textContent = 'আপডেট করুন';
+            window.scrollTo(0, 0); // Scroll to top to see the form
+        }
+        
+        // Delete post
+        async function deletePost(id) {
+            if (confirm('আপনি কি এই পোস্টটি ডিলিট করতে নিশ্চিত?')) {
+                await db.collection('posts').doc(id).delete();
+                alert('পোস্ট ডিলিট করা হয়েছে।');
+                loadPosts();
+            }
+        }
+
     </script>
 </body>
 </html>
