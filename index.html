@@ -3,599 +3,609 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>নিউজপোর্টাল - সর্বশেষ বাংলা সংবাদ</title>
-    
-    <!-- Google Fonts & Icons -->
+    <title>বর্তমান সাতক্ষীরা - বস্তুনিষ্ঠ সংবাদে অবিচল</title>
+    <!-- স্টাইল এবং ফন্ট এর জন্য যা যা ছিল -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=AdorshoLipi&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* --- CSS Variables & Base Styles --- */
-        :root {
-            --primary-color: #D32F2F; /* Professional Red */
-            --secondary-color: #1a1a1a; /* Deeper Black */
-            --background-light: #f4f6f9;
-            --background-dark: #101114;
-            --text-light: #1c1c1c;
-            --text-dark: #e1e1e1;
-            --card-light: #ffffff;
-            --card-dark: #1e1f22;
-            --border-color: #e5e7eb;
-            --border-dark: #3a3b3f;
-        }
-        .light-mode { 
-            --bg-color: var(--background-light); --text-color: var(--text-light); --card-bg: var(--card-light); --border: var(--border-color); 
-        }
-        .dark-mode { 
-            --bg-color: var(--background-dark); --text-color: var(--text-dark); --card-bg: var(--card-dark); --border: var(--border-dark); 
-        }
-        
+        :root { --primary-color: #d82028; --secondary-color: #222222; --background-color: #f0f2f5; --card-bg-color: #ffffff; --text-color: #333; --heading-color: #1a1a1a; --border-color: #e5e5e5; --font-main: 'Hind Siliguri', sans-serif; --font-heading: 'AdorshoLipi', 'Hind Siliguri', sans-serif; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Hind Siliguri', sans-serif; background-color: var(--bg-color); color: var(--text-color); 
-            transition: background-color 0.3s, color 0.3s; overflow-x: hidden; 
-        }
+        body { font-family: var(--font-main); background-color: var(--background-color); color: var(--text-color); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+        a { text-decoration: none; color: inherit; transition: color 0.2s; }
+        a:hover { color: var(--primary-color); }
+        img { max-width: 100%; height: auto; display: block; }
+        h1, h2, h3, h4 { font-family: var(--font-heading); color: var(--heading-color); font-weight: 700; line-height: 1.3; }
+        .clickable { cursor: pointer; }
+        .header_top { background: var(--secondary-color); color: #fff; padding: 8px 0; }
+        .header_top_content { display: flex; justify-content: space-between; align-items: center; }
+        .header_top_content .date { font-size: 14px; }
+        .header_top_content .social-icons a { color: #fff; margin-left: 16px; font-size: 15px; }
+        .logo_area { background: #fff; padding: 20px 0; text-align: center; }
+        .logo_area .logo { font-family: var(--font-heading); font-size: 3.5rem; color: var(--primary-color); }
+        .main_menu_area { background: var(--primary-color); position: sticky; top: 0; z-index: 999; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .main_menu_area .container { display: flex; justify-content: space-between; align-items: center; }
+        .main-menu { list-style: none; display: flex; flex-wrap: wrap; }
+        .main-menu > li > a { color: #fff; padding: 15px 17px; display: block; font-size: 17px; font-weight: 600; }
+        .main-menu > li > a:hover, .main-menu > li.active > a { background-color: rgba(0,0,0,0.2); }
+        .mobile_menu_toggle { display: none; background: transparent; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 10px; }
+        .mobile-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 998; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
+        .mobile-menu-overlay.active { opacity: 1; visibility: visible; }
+        .ticker_area { padding: 20px 0 0; }
+        .ticker_content { background: #fff; display: flex; align-items: center; padding: 5px; border-radius: 4px; }
+        .ticker_content .title { background: var(--primary-color); color: #fff; font-weight: 700; padding: 10px 20px; font-size: 18px; white-space: nowrap;}
+        .ticker_content .news_list { flex: 1; overflow: hidden; }
+        .ticker_content .news_list marquee a { font-size: 17px; margin-right: 30px; font-weight: 500; }
+        .main_content_area { padding: 30px 0; }
+        .main_content { display: grid; grid-template-columns: 1fr; gap: 30px; }
+        @media (min-width: 992px) { .main_content { grid-template-columns: 3fr 1fr; } }
+        .lead_news_area { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media (min-width: 768px) { .lead_news_area { grid-template-columns: 2fr 1fr; } }
+        /* Generic Post Styles */
+        .single_post { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; margin-bottom: 20px; }
+        .single_post:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.12); }
+        .single_post .media { overflow: hidden; }
+        .single_post .media img { width: 100%; object-fit: cover; transition: transform 0.3s ease-in-out; }
+        .single_post:hover .media img { transform: scale(1.05); }
+        .single_post .post-content { padding: 15px; }
+        .post-meta { font-size: 0.85rem; color: #777; margin-top: 8px; }
+        .full-story { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color); line-height: 1.8; }
+        /* Lead News Specific */
+        .lead_news_left .single_post .media img { height: 420px; }
+        .lead_news_left .single_post .post-content h2 { font-size: 2.2rem; margin-top: 15px; }
+        .lead_news_right .single_post { display: flex; gap: 15px; }
+        .lead_news_right .single_post .media { flex-shrink: 0; width: 120px; height: 80px; border-radius: 4px; }
+        .lead_news_right .single_post .post-content { padding: 0; align-self: center; }
+        .lead_news_right .single_post h3 { font-size: 1.1rem; font-weight: 600; }
+        /* Category Section */
+        .cat_area { margin-top: 40px; }
+        .cat_title_modern { border-bottom: 3px solid var(--primary-color); margin-bottom: 25px; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .cat_title_modern h2 { margin: 0; font-size: 24px; color: var(--heading-color); }
+        .cat_title_modern a.view-all { font-size: 15px; font-weight: 600; color: var(--primary-color); }
+        .cat_content { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
+        .cat_content .single_post .media img { height: 170px; }
+        .cat_content .single_post h3 { font-size: 1.15rem; font-weight: 600; }
+        /* Sidebar */
+        .sidebar .widget { background: #fff; padding: 15px; margin-bottom: 30px; border-radius: 4px; }
+        .sidebar .widget-title { background: var(--secondary-color); color: #fff; padding: 10px 15px; font-size: 18px; margin: -15px -15px 15px -15px; }
+        .latest_post .single_post { display: flex; gap: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); box-shadow: none; border-radius: 0; margin-bottom: 15px; }
+        .latest_post .single_post:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .latest_post .single_post .media { flex-shrink: 0; width: 100px; height: 70px; border-radius: 4px; }
+        .latest_post .single_post .post-content { padding: 0; }
+        .latest_post .single_post h4 { font-size: 1rem; font-weight: 600; }
+        /* Single Post Page Styles */
+        .single-post-page { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 30px; }
+        .single-post-page .post-header { margin-bottom: 20px; }
+        .single-post-page .post-header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .single-post-page .post-meta { color: #777; margin-bottom: 20px; }
+        .single-post-page .post-image { margin-bottom: 20px; }
+        .single-post-page .post-image img { width: 100%; max-height: 500px; object-fit: cover; border-radius: 8px; }
+        .single-post-page .post-content { line-height: 1.8; font-size: 1.1rem; }
+        .back-to-home { display: inline-block; margin-bottom: 20px; background: var(--primary-color); color: white; padding: 10px 20px; border-radius: 4px; font-weight: 600; }
+        .back-to-home:hover { background: #c01a22; color: white; }
+        .post-video { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000; margin-bottom: 20px; border-radius: 8px; }
+        .post-video iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        /* Mobile Menu */
+        @media (max-width: 991px) {
+            .mobile_menu_toggle { display: block; }
+            .main-menu { position: fixed; top: 0; left: -300px; width: 280px; height: 100vh; background: var(--secondary-color); flex-direction: column; justify-content: flex-start; padding: 20px; transition: left 0.3s ease-in-out; box-shadow: 3px 0 10px rgba(0,0,0,0.2); z-index: 1000; }
+            .main-menu.active { left: 0; }
+            .main-menu > li { width: 100%; }
+            .single-post-page .post-header h1 { font-size: 1.8rem; }
+        }
 
-        /* --- Header --- */
-        header { 
-            background-color: var(--card-bg); border-bottom: 1px solid var(--border); padding: 1rem 0; 
-            position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+        /* --- শেয়ার বাটন স্টাইল --- */
+        .share-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
         }
-        .header-content { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 2rem; font-weight: 700; color: var(--primary-color); }
-        .theme-toggle { background: none; border: none; color: var(--text-color); cursor: pointer; font-size: 1.5rem; }
+        .share-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--heading-color);
+            font-weight: 600;
+        }
+        .share-buttons {
+            display: flex;
+            flex-wrap: wrap; 
+            gap: 15px;
+        }
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            color: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        .share-btn i {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+        .fb-share { background: linear-gradient(135deg, #3b5998, #4a69a4); }
+        .fb-share:hover { background: linear-gradient(135deg, #4a69a4, #3b5998); }
+        .wa-share { background: linear-gradient(135deg, #25D366, #128C7E); }
+        .wa-share:hover { background: linear-gradient(135deg, #128C7E, #25D366); }
+        .copy-link { background: linear-gradient(135deg, #6c757d, #5a6268); }
+        .copy-link:hover { background: linear-gradient(135deg, #5a6268, #6c757d); }
 
-        /* --- Breaking News Ticker --- */
-        .breaking-news { 
-            display: flex; align-items: center; background-color: var(--secondary-color); color: white; 
-            padding: 0.75rem 0; margin: 1rem 0; 
-        }
-        .breaking-label { background: var(--primary-color); padding: 0.5rem 1rem; font-weight: 600; white-space: nowrap; }
-        .breaking-text { flex-grow: 1; overflow: hidden; white-space: nowrap; padding-left: 1rem; }
-
-        /* --- Category Navigation --- */
-        .category-nav { margin: 1.5rem 0; }
-        .categories { display: flex; overflow-x: auto; gap: 0.5rem; padding-bottom: 10px; scrollbar-width: none; }
-        .categories::-webkit-scrollbar { display: none; }
-        .category-btn { 
-            padding: 8px 18px; color: var(--text-color); border: 1px solid var(--border); border-radius: 20px; 
-            cursor: pointer; white-space: nowrap; font-size: 1rem; font-weight: 500; transition: all 0.3s; 
-            background-color: var(--card-bg); /* Ensure category buttons have card background */
-        }
-        .category-btn:hover { background: #eee; border-color: #ddd; }
-        .dark-mode .category-btn:hover { background: #333; border-color: #555; }
-        .category-btn.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
-        .category-btn.active:hover { background: var(--primary-color); color: white; border-color: var(--primary-color); } /* Keep active hover same */
-
-
-        /* --- Featured News Layout --- */
-        .featured-grid { 
-            display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: repeat(2, 1fr); 
-            gap: 1.5rem; height: 500px; margin-bottom: 2.5rem; 
-        }
-        .hero-card { grid-column: 1 / 2; grid-row: 1 / 3; }
-        /* Secondary cards get default .news-card styles */
-
-        /* --- News Card (Universal Style) --- */
-        .news-card { 
-            background: var(--card-bg); border-radius: 12px; overflow: hidden; cursor: pointer; 
-            position: relative; display: flex; flex-direction: column; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: all 0.3s ease; 
-        }
-        .news-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-        .card-image-container { position: relative; width: 100%; height: 100%; overflow: hidden; }
-        .card-image-container::after { 
-            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 70%; 
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); 
-        }
-        .news-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-        .news-card:hover img { transform: scale(1.05); }
-        .card-content { position: absolute; bottom: 0; left: 0; padding: 1.5rem; width: 100%; z-index: 2; }
-        .card-category { 
-            position: absolute; top: 1rem; left: 1rem; background: var(--primary-color); color: white; 
-            padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 500; z-index: 2;
-        }
-        .card-title { font-size: 1.5rem; line-height: 1.4; font-weight: 600; color: white; margin-bottom: 0.5rem; }
-        .card-meta { font-size: 0.85rem; color: #ddd; }
-        
-        /* Secondary card specifics */
-        .secondary-card .card-title { font-size: 1.2rem; }
-        
-        /* --- Standard Grid for other news --- */
-        .section-title { 
-            font-size: 1.8rem; font-weight: 700; margin-bottom: 1.5rem; 
-            border-bottom: 3px solid var(--primary-color); padding-bottom: 0.5rem; display: inline-block; 
-            color: var(--text-color);
-        }
-        .standard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
-        .standard-card { height: 400px; }
-        .standard-card .card-image-container { height: 200px; }
-        .standard-card .card-content { 
-            position: relative; background: var(--card-bg); color: var(--text-color); height: 200px; 
-            display: flex; flex-direction: column; justify-content: space-between; 
-            padding: 1.5rem;
-        }
-        .standard-card .card-title { color: var(--text-color); font-size: 1.2rem; margin-bottom: 0.5rem; }
-        .standard-card .card-meta { color: #888; margin-top: auto; }
-        .standard-card .card-image-container::after { content: none; }
-        .standard-card .card-category { 
-            top: auto; left: 1.5rem; bottom: 1.5rem; background: none; color: #888; 
-            padding: 0; font-weight: normal; 
-            position: absolute; /* Re-position for standard cards */
-            font-size: 0.8rem;
-        }
-        .dark-mode .standard-card .card-category { color: #aaa; }
-
-        /* --- Skeleton Loader --- */
-        .skeleton { animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; background-color: var(--border); }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
-        .skeleton-card { border-radius: 12px; }
-        .skeleton-text { height: 1.2rem; border-radius: 4px; margin-top: 0.5rem; }
-        .skeleton-title { height: 2rem; border-radius: 4px; }
-        .skeleton-category { height: 0.8rem; width: 80px; margin-bottom: 0.5rem; border-radius: 4px;}
-
-
-        /* --- Article Detail View --- */
-        #article-view { display: none; padding: 1rem 0; }
-        .article-title { font-size: 2.8rem; line-height: 1.3; margin-bottom: 1rem; font-weight: 700; color: var(--text-color); }
-        .article-meta, .article-share { display: flex; align-items: center; gap: 1rem; color: #888; margin-bottom: 1.5rem; flex-wrap: wrap;}
-        .share-buttons { display: flex; gap: 10px; margin-left: auto; }
-        .share-buttons a { 
-            color: #888; font-size: 1.2rem; transition: color 0.3s; 
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 35px; height: 35px; border-radius: 50%; border: 1px solid #ccc;
-        }
-        .share-buttons a.facebook-share { color: #3b5998; border-color: #3b5998; }
-        .share-buttons a.twitter-share { color: #1da1f2; border-color: #1da1f2; }
-        .share-buttons a.whatsapp-share { color: #25d366; border-color: #25d366; }
-        .share-buttons a:hover { opacity: 0.8; }
-
-        .article-image { width: 100%; max-height: 550px; object-fit: cover; border-radius: 12px; margin-bottom: 2rem; }
-        .article-content { 
-            font-size: 1.15rem; line-height: 2.2; max-width: 800px; margin: 0 auto; 
-            color: var(--text-color);
-        }
-        .article-content h1, .article-content h2, .article-content h3 { margin-top: 2rem; margin-bottom: 1rem; line-height: 1.5; color: var(--text-color); }
-        .article-content p { margin-bottom: 1.5rem; }
-        .back-button { 
-            background: var(--primary-color); color: white; padding: 12px 25px; border: none; 
-            border-radius: 8px; cursor: pointer; font-size: 1rem; margin-bottom: 2rem; 
-            display: inline-flex; align-items: center; gap: 8px; transition: background-color 0.3s;
-        }
-        .back-button:hover { background-color: #a00; }
-
-        /* --- Footer & Back to Top --- */
-        footer { 
-            background: var(--card-dark); color: #ccc; padding: 3rem 0; margin-top: 4rem; 
-            border-top: 1px solid var(--border-dark);
-        }
-        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
-        .footer-section h3 { 
-            font-size: 1.2rem; color: white; margin-bottom: 1.5rem; 
-            border-bottom: 2px solid var(--primary-color); display: inline-block; padding-bottom: 0.5rem; 
-        }
-        .footer-section p, .footer-section a { color: #aaa; text-decoration: none; line-height: 1.8; transition: color 0.3s; }
-        .footer-section a:hover { color: var(--primary-color); }
-        .social-links a { 
-            font-size: 1.5rem; margin-right: 1rem; transition: color 0.3s; 
-            color: #aaa; /* Default color for icons */
-        }
-        .social-links a:hover { color: var(--primary-color); } /* Hover color for icons */
-        .copyright { text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #444; color: #888; }
-        
-        #backToTopBtn { 
-            display: none; position: fixed; bottom: 20px; right: 20px; z-index: 99; 
-            background: var(--primary-color); color: white; border: none; border-radius: 50%; 
-            width: 50px; height: 50px; cursor: pointer; font-size: 1.2rem; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: background-color 0.3s, transform 0.3s;
-        }
-        #backToTopBtn:hover { background-color: #a00; transform: translateY(-5px); }
-
-        /* --- Responsive Design --- */
-        @media (max-width: 768px) {
-            .logo { font-size: 1.6rem; }
-            .featured-grid { grid-template-columns: 1fr; grid-template-rows: auto; height: auto; }
-            .hero-card { grid-row: auto; margin-bottom: 1.5rem; height: 350px; }
-            .secondary-card { height: 250px; margin-bottom: 1.5rem; }
-            .standard-grid { grid-template-columns: 1fr; }
-            .standard-card { height: auto; }
-            .standard-card .card-image-container { height: 200px; }
-            .standard-card .card-content { height: auto; padding: 1rem; }
-            .standard-card .card-category { position: relative; bottom: auto; left: auto; margin-bottom: 0.5rem; }
-
-            .article-title { font-size: 1.8rem; }
-            .article-meta, .article-share { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
-            .share-buttons { margin-left: 0; margin-top: 10px; }
-            .footer-content { text-align: left; }
-            .footer-section h3 { display: block; width: fit-content; margin-bottom: 1rem; }
-            .social-links { margin-top: 1rem; }
-        }
-        @media (max-width: 480px) {
-            .card-title { font-size: 1.3rem; }
-            .hero-card .card-title { font-size: 1.6rem; }
-            .article-title { font-size: 1.5rem; }
+        @media (max-width: 576px) {
+            .share-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .share-btn { width: 100%; }
         }
     </style>
 </head>
-<body class="light-mode">
+<body>
+    
+    <div class="mobile-menu-overlay" id="menu-overlay"></div>
     <header>
-        <div class="container header-content">
-            <div class="logo">নিউজপোর্টাল - Satkhira</div>
-            <button class="theme-toggle" id="themeToggle">🌙</button>
+        <div class="header_top">
+            <div class="container">
+                <div class="header_top_content">
+                    <div class="date" id="current-date-time">সাতক্ষীরা, লোড হচ্ছে...</div>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Youtube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="logo_area">
+            <h1 class="logo">News সাতক্ষীরা</h1>
         </div>
     </header>
 
-    <div class="breaking-news">
-        <div class="container" style="display: flex; align-items: center;">
-            <span class="breaking-label">ব্রেকিং</span>
-            <div class="breaking-text" id="breakingText">সর্বশেষ সংবাদের জন্য অপেক্ষা করুন...</div>
+    <nav class="main_menu_area">
+        <div class="container">
+            <button class="mobile_menu_toggle" id="menu-toggle" aria-label="Open Menu"><i class="fas fa-bars"></i></button>
+            <ul class="main-menu" id="main-menu">
+                <li><a href="#home">সব খবর দেখুন</a></li>
+                <li><a href="#?category=সাতক্ষীরা">সাতক্ষীরা</a></li>
+                <li><a href="#?category=বাগেরহাট">বাগেরহাট</a></li>
+                <li><a href="#?category=কট_খাইছে_রে_মামা">কট খাইছে রে মামা</a></li>
+                <li><a href="#?category=জাতীয়">জাতীয়</a></li>
+                <li><a href="#?category=রাজনীতি">রাজনীতি</a></li>
+                <li><a href="#?category=খেলাধুলা">খেলাধুলা</a></li>
+                <li><a href="#?category=বিনোদন">বিনোদন</a></li>
+            </ul>
         </div>
-    </div>
+    </nav>
+    
+    <section class="ticker_area">
+        <div class="container"><div class="ticker_content"><div class="title">শিরোনাম</div><div class="news_list"><marquee id="breaking-news-container" onmouseover="this.stop();" onmouseout="this.start();">ব্রেকিং নিউজ লোড হচ্ছে...</marquee></div></div></div>
+    </section>
 
-    <main class="container">
-        <div id="main-content-view">
-            <div class="category-nav">
-                <div class="categories" id="category-buttons-container">
-                    <!-- Categories will be dynamically generated here -->
-                </div>
+    <main class="main_content_area">
+        <div class="container"><div class="main_content">
+            <div class="content" id="main-content-area">
+                <p style="text-align:center;">খবর লোড হচ্ছে...</p>
             </div>
-
-            <!-- Skeleton Loader (Initially visible) -->
-            <div id="skeleton-loader">
-                <div class="featured-grid">
-                    <div class="skeleton skeleton-card hero-card">
-                        <div class="card-image-container"></div>
-                        <div class="card-content">
-                            <div class="skeleton-category skeleton"></div>
-                            <div class="skeleton-title skeleton"></div>
-                            <div class="skeleton-text skeleton" style="width: 70%;"></div>
-                        </div>
-                    </div>
-                    <div class="skeleton skeleton-card secondary-card">
-                        <div class="card-image-container"></div>
-                        <div class="card-content">
-                            <div class="skeleton-category skeleton"></div>
-                            <div class="skeleton-title skeleton"></div>
-                            <div class="skeleton-text skeleton" style="width: 70%;"></div>
-                        </div>
-                    </div>
-                    <div class="skeleton skeleton-card secondary-card">
-                        <div class="card-image-container"></div>
-                        <div class="card-content">
-                            <div class="skeleton-category skeleton"></div>
-                            <div class="skeleton-title skeleton"></div>
-                            <div class="skeleton-text skeleton" style="width: 70%;"></div>
-                        </div>
-                    </div>
-                </div>
-                <h2 class="section-title skeleton" style="width: 200px;"></h2> <!-- Skeleton for section title -->
-                <div class="standard-grid">
-                    <div class="skeleton skeleton-card standard-card">
-                        <div class="card-image-container"></div>
-                        <div class="card-content">
-                            <div class="skeleton-category skeleton"></div>
-                            <div class="skeleton-title skeleton"></div>
-                            <div class="skeleton-text skeleton" style="width: 70%;"></div>
-                        </div>
-                    </div>
-                     <div class="skeleton skeleton-card standard-card">
-                        <div class="card-image-container"></div>
-                        <div class="card-content">
-                            <div class="skeleton-category skeleton"></div>
-                            <div class="skeleton-title skeleton"></div>
-                            <div class="skeleton-text skeleton" style="width: 70%;"></div>
-                        </div>
-                    </div>
-                     <div class="skeleton skeleton-card standard-card">
-                        <div class="card-image-container"></div>
-                        <div class="card-content">
-                            <div class="skeleton-category skeleton"></div>
-                            <div class="skeleton-title skeleton"></div>
-                            <div class="skeleton-text skeleton" style="width: 70%;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Actual News Content (Initially Hidden) -->
-            <div id="news-content-wrapper" style="display: none;">
-                <div id="featured-news" class="featured-grid"></div>
-                <h2 class="section-title">সর্বশেষ সংবাদ</h2>
-                <div id="standard-news-grid" class="standard-grid"></div>
-            </div>
-             <p id="empty-message" style="display:none; text-align:center; font-size:1.2rem; padding: 2rem; color: var(--text-color);">এই ক্যাটাগরিতে কোনো খবর পাওয়া যায়নি।</p>
-        </div>
-
-        <!-- Article Detail View -->
-        <div id="article-view">
-            <button class="back-button" id="back-to-home"><i class="fas fa-arrow-left"></i> সব খবরে ফিরে যান</button>
-            <div id="article-detail-content">
-                <!-- Full article content will be loaded here dynamically -->
-            </div>
-        </div>
+            <aside class="sidebar">
+                <div class="widget"><h3 class="widget-title">সর্বশেষ সংবাদ</h3><div class="latest_post" id="latest-news-sidebar"><p style="text-align:center;">লোড হচ্ছে...</p></div></div>
+                <div class="widget"><h3 class="widget-title">জনপ্রিয় সংবাদ</h3><div class="latest_post" id="popular-news-sidebar"><p style="text-align:center;">লোড হচ্ছে...</p></div></div>
+            </aside>
+        </div></div>
     </main>
 
-    <button id="backToTopBtn" title="উপরে যান"><i class="fas fa-arrow-up"></i></button>
-
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>আমাদের সম্পর্কে</h3>
-                    <p>নিউজপোর্টাল একটি নিরপেক্ষ ও বস্তুনিষ্ঠ অনলাইন সংবাদ মাধ্যম। আমরা আপনাদের কাছে ২৪/৭ সর্বশেষ সংবাদ পৌঁছে দিতে প্রতিশ্রুতিবদ্ধ।</p>
+    <footer class="footer_area" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); color: #fff; padding: 60px 0 30px; margin-top: 50px; position: relative; overflow: hidden;">
+    <div class="container">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-bottom: 40px; position: relative; z-index: 2;">
+            
+            <div class="footer_section">
+                <div style="display: flex; align-items: center; margin-bottom: 25px;">
+                    <div style="width: 50px; height: 50px; background: #d82028; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                        <i class="fas fa-newspaper" style="font-size: 24px;"></i>
+                    </div>
+                    <h3 style="color: #fff; margin: 0; font-size: 24px; font-weight: 700;">বর্তমান সাতক্ষীরা</h3>
                 </div>
-                <div class="footer-section">
-                    <h3>যোগাযোগ</h3>
-                    <p>ইমেইল: itznahidofficial69@gmail.com<br>ফোন: +880 192 292 8050<br>ঠিকানা: খুলনা, সাতক্ষীরা, দেবহাটা।</p>
+                <p style="line-height: 1.7; margin-bottom: 20px; color: #ccc;">বস্তুনিষ্ঠ সংবাদে অবিচল। সাতক্ষীরা জেলার প্রাণের সংবাদপত্র। স্থানীয়, জাতীয় ও আন্তর্জাতিক খবর সবার আগে জানতে আমাদের সাথে থাকুন।</p>
+                <div style="display: flex; align-items: center;">
+                    <div style="width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px;">
+                        <i class="fas fa-award" style="color: #ff7b00;"></i>
+                    </div>
+                    <p style="margin: 0; color: #ff7b00; font-weight: 500;">সাতক্ষীরা, দেবহাটা ।</p>
                 </div>
-                <div class="footer-section">
-                    <h3>সামাজিক মাধ্যম</h3>
-                    <div class="social-links">
-                        <a href="https://www.facebook.com/ItznahidDeveloper" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://www.facebook.com/ItznahidDeveloper" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="https://www.facebook.com/ItznahidDeveloper" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.facebook.com/ItznahidDeveloper" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+            
+            
+            <div class="footer_section">
+                <h3 style="color: #fff; margin-bottom: 25px; font-size: 22px; padding-bottom: 10px; border-bottom: 2px solid #d82028; display: inline-block;">যোগাযোগ তথ্য</h3>
+                <div style="line-height: 1.9;">
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <div style="width: 40px; height: 40px; background: rgba(216, 32, 40, 0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                            <i class="fas fa-map-marker-alt" style="color: #d82028;"></i>
+                        </div>
+                        <p style="margin: 0;">খুলনা বিভাগ, সাতক্ষীরা, দেবহাটা ।</p>
+                    </div>
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <div style="width: 40px; height: 40px; background: rgba(216, 32, 40, 0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                            <i class="fas fa-phone" style="color: #d82028;"></i>
+                        </div>
+                        <p style="margin: 0;">+880 192 292 8050</p>
+                    </div>
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <div style="width: 40px; height: 40px; background: rgba(216, 32, 40, 0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                            <i class="fas fa-envelope" style="color: #d82028;"></i>
+                        </div>
+                        <p style="margin: 0;">itznahidofficial69@gmail.com</p>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <div style="width: 40px; height: 40px; background: rgba(216, 32, 40, 0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                            <i class="fas fa-globe" style="color: #d82028;"></i>
+                        </div>
+                        <p style="margin: 0;">www.github.io/nahid</p>
                     </div>
                 </div>
             </div>
-            <div class="copyright">
-                <p>&copy; 2025 Developer by - It'z Nahid</p>
+            
+            
+            <div class="footer_section">
+                <h3 style="color: #fff; margin-bottom: 25px; font-size: 22px; padding-bottom: 10px; border-bottom: 2px solid #d82028; display: inline-block;">আমাদের সাথে যুক্ত থাকুন</h3>
+                
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <h4 style="color: #ddd; margin-bottom: 20px; font-weight: 600;">সোশ্যাল মিডিয়া</h4>
+                    <div class="social-icons" style="display: flex; justify-content: center; gap: 15px; margin-bottom: 30px;">
+                        <a href="#" aria-label="Facebook" style="display: inline-flex; width: 50px; height: 50px; background: linear-gradient(45deg, #3b5998, #4a69a4); color: white; border-radius: 50%; text-align: center; align-items: center; justify-content: center; transition: all 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.2);"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Youtube" style="display: inline-flex; width: 50px; height: 50px; background: linear-gradient(45deg, #ff0000, #ff4d4d); color: white; border-radius: 50%; text-align: center; align-items: center; justify-content: center; transition: all 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.2);"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Twitter" style="display: inline-flex; width: 50px; height: 50px; background: linear-gradient(45deg, #1da1f2, #3bb4f8); color: white; border-radius: 50%; text-align: center; align-items: center; justify-content: center; transition: all 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.2);"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram" style="display: inline-flex; width: 50px; height: 50px; background: linear-gradient(45deg, #e1306c, #fd1d1d); color: white; border-radius: 50%; text-align: center; align-items: center; justify-content: center; transition: all 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.2);"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                
+                <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; border: 1px solid rgba(255,255,0.1);">
+                    <h4 style="color: #ddd; margin-bottom: 15px; text-align: center; font-weight: 600;">নিউজলেটার সাবস্ক্রাইব</h4>
+                    <p style="color: #aaa; text-align: center; margin-bottom: 15px; font-size: 14px;">সর্বশেষ খবর পেতে ইমেইল দিন</p>
+                    <div style="display: flex;">
+                        <input type="email" placeholder="আপনার ইমেইল ঠিকানা" style="flex: 1; padding: 12px 15px; border: none; border-radius: 6px 0 0 6px; background: rgba(255,255,255,0.1); color: #fff;">
+                        <button style="background: linear-gradient(45deg, #d82028, #ff7b00); color: white; border: none; padding: 0 20px; border-radius: 0 6px 6px 0; cursor: pointer; font-weight: 600; transition: all 0.3s;">সাবমিট</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </footer>
+        
+        
+        <div style="text-align: center; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); position: relative; z-index: 2;">
+            <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">
+                <div style="width: 30px; height: 30px; background: #d82028; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px;">
+                    <i class="fas fa-user-edit" style="color: white; font-size: 14px;"></i>
+                </div>
+                <p style="margin: 0; font-weight: 500;">Developer by : It'z Nahid</p>
+            </div>
+            <p style="margin: 0; color: #aaa; font-size: 14px;">&copy; ২০২৫ বর্তমান সাতক্ষীরা দেবহাটা- সর্বস্বত্ব সংরক্ষিত</p>
+        </div>
+    </div>
+</footer>
 
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <!-- Firebase SDK v8 -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
     <script>
-        // --- START: Firebase Configuration ---
         const firebaseConfig = {
-            apiKey: "AIzaSyCNQuQuzGSd8PkoqLyKxrZ0QJakSyrS4y0",
-            authDomain: "nahidvai80.firebaseapp.com",
-            projectId: "nahidvai80",
-            storageBucket: "nahidvai80.firebasestorage.app",
-            messagingSenderId: "452800032231",
-            appId: "1:452800032231:web:7534c2d6f0bb62b8b1e142"
+            apiKey: "AIzaSyA3peBw2W7I80YoCTEpPVCnXelVLUQZMDE",
+            authDomain: "satkhira-post.firebaseapp.com",
+            projectId: "satkhira-post",
+            storageBucket: "satkhira-post.appspot.com",
+            messagingSenderId: "236510973672",
+            appId: "1:236510973672:web:f83aa94577f1e99ddb435d",
+            measurementId: "G-ELJFVZ64YJ"
         };
-        // --- END: Firebase Configuration ---
 
-        firebase.initializeApp(firebaseConfig);
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         const db = firebase.firestore();
-        const articlesCollection = db.collection('articles');
-        const breakingNewsCollection = db.collection('breakingNews');
+        let allPosts = []; 
+
+        function getTimeAgo(timestamp) {
+            if (!timestamp) return '';
+            const postDate = timestamp.toDate();
+            const now = new Date();
+            const seconds = Math.floor((now - postDate) / 1000);
+
+            if (seconds < 60) return `এইমাত্র`;
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) return `${minutes} মিনিট আগে`;
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return `${hours} ঘন্টা আগে`;
+            
+            return postDate.toLocaleDateString('bn-BD', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+        }
+
+        function createPostHTML(post, templateType = 'default') {
+            const timeAgo = getTimeAgo(post.timestamp);
+            
+            if (templateType === 'lead_left') {
+                return `
+                <div class="single_post" data-id="${post.id}">
+                    <div class="media clickable post-link"><img src="${post.imageUrl}" alt="${post.title}"></div>
+                    <div class="post-content">
+                        <h2 class="clickable post-link">${post.title}</h2>
+                        <p class="post-meta">${timeAgo}</p>
+                        <div class="full-story"><p>${post.content.replace(/\n/g, '<br>')}</p></div>
+                    </div>
+                </div>`;
+            }
+            if (templateType === 'lead_right') {
+                return `
+                <div class="single_post" data-id="${post.id}">
+                    <div class="media clickable post-link"><img src="${post.imageUrl}" alt="${post.title}"></div>
+                    <div class="post-content">
+                        <h3 class="clickable post-link">${post.title}</h3>
+                        <p class="post-meta">${timeAgo}</p>
+                        <div class="full-story"><p>${post.content.replace(/\n/g, '<br>')}</p></div>
+                    </div>
+                </div>`;
+            }
+             if (templateType === 'sidebar') {
+                return `
+                <div class="single_post" data-id="${post.id}">
+                    <div class="media clickable post-link"><img src="${post.imageUrl}" alt="${post.title}"></div>
+                    <div class="post-content">
+                        <h4 class="clickable post-link">${post.title}</h4>
+                        <p class="post-meta">${timeAgo}</p>
+                        <div class="full-story"><p>${post.content.replace(/\n/g, '<br>')}</p></div>
+                    </div>
+                </div>`;
+            }
+            return `
+            <div class="single_post" data-id="${post.id}">
+                <div class="media clickable post-link"><img src="${post.imageUrl}" alt="${post.title}"></div>
+                <div class="post-content">
+                    <h3 class="clickable post-link">${post.title}</h3>
+                    <p class="post-meta">${timeAgo}</p>
+                    <div class="full-story"><p>${post.content.replace(/\n/g, '<br>')}</p></div>
+                </div>
+            </div>`;
+        }
+
+        function renderHomePage(posts) {
+            const mainContentArea = document.getElementById('main-content-area');
+            if (posts.length === 0) {
+                mainContentArea.innerHTML = '<p>কোনো খবর পাওয়া যায়নি।</p>';
+                return;
+            }
+
+            const featuredLeft = createPostHTML(posts[0], 'lead_left');
+            const featuredRightPosts = posts.slice(1, 4).map(p => createPostHTML(p, 'lead_right')).join('');
+            
+            const nationalPosts = posts.filter(p => p.category === 'জাতীয়').slice(0, 6).map(p => createPostHTML(p)).join('');
+            const sportsPosts = posts.filter(p => p.category === 'খেলাধুলা').slice(0, 6).map(p => createPostHTML(p)).join('');
+
+            mainContentArea.innerHTML = `
+                <div class="lead_news_area">
+                    <div class="lead_news_left">${featuredLeft}</div>
+                    <div class="lead_news_right">${featuredRightPosts}</div>
+                </div>
+                <div class="cat_area">
+                    <div class="cat_title_modern"><h2><a href="#?category=জাতীয়">জাতীয়</a></h2><a href="#?category=জাতীয়" class="view-all">সব দেখুন &rarr;</a></div>
+                    <div class="cat_content">${nationalPosts || '<p>এই ক্যাটাগরিতে কোনো খবর নেই।</p>'}</div>
+                </div>
+                <div class="cat_area">
+                    <div class="cat_title_modern"><h2><a href="#?category=খেলাধুলা">খেলাধুলা</a></h2><a href="#?category=খেলাধুলা" class="view-all">সব দেখুন &rarr;</a></div>
+                    <div class="cat_content">${sportsPosts || '<p>এই ক্যাটাগরিতে কোনো খবর নেই।</p>'}</div>
+                </div>
+            `;
+        }
+
+        function renderCategoryPage(posts, category) {
+            const mainContentArea = document.getElementById('main-content-area');
+            const categoryPosts = posts.filter(p => p.category === category);
+            
+            if (categoryPosts.length === 0) {
+                mainContentArea.innerHTML = `
+                    <div class="cat_area"><div class="cat_title_modern"><h2>${category}</h2></div>
+                    <p>দুঃখিত, এই ক্যাটাগরিতে কোনো খবর পাওয়া যায়নি।</p></div>`;
+                return;
+            }
+            
+            const postsHTML = categoryPosts.map(p => createPostHTML(p)).join('');
+            mainContentArea.innerHTML = `
+                <div class="cat_area">
+                    <div class="cat_title_modern"><h2>${category}</h2></div>
+                    <div class="cat_content">${postsHTML}</div>
+                </div>
+            `;
+        }
+        
+        function createVideoEmbed(videoUrl) {
+            let embedHtml = '';
+            if (videoUrl.includes('youtube.com/watch?v=') || videoUrl.includes('youtu.be/')) {
+                let videoId;
+                if (videoUrl.includes('youtube.com/watch?v=')) {
+                    videoId = videoUrl.split('v=')[1].split('&')[0];
+                } else {
+                    videoId = videoUrl.split('youtu.be/')[1].split('?')[0];
+                }
+                const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+                embedHtml = `<div class="post-video"><iframe src="${embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+            }
+            else if (videoUrl.includes('drive.google.com/file/d/')) {
+                const fileId = videoUrl.split('/d/')[1].split('/')[0];
+                const embedUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+                embedHtml = `<div class="post-video"><iframe src="${embedUrl}" frameborder="0" allow="fullscreen" allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation"></iframe></div>`;
+            }
+            return embedHtml;
+        }
+
+        function getShareUrl() {
+            return window.location.href;
+        }
+
+        function shareOnFacebook() {
+            const url = encodeURIComponent(getShareUrl());
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+        }
+        
+        function shareOnWhatsApp() {
+            const url = encodeURIComponent(getShareUrl());
+            const text = encodeURIComponent("এই সংবাদটি দেখুন: ");
+            window.open(`https://wa.me/?text=${text}${url}`, '_blank');
+        }
+
+        function copyLink(buttonElement) {
+            const url = getShareUrl();
+            navigator.clipboard.writeText(url).then(() => {
+                const originalHTML = buttonElement.innerHTML;
+                buttonElement.innerHTML = `<i class="fas fa-check"></i> কপি হয়েছে!`;
+                buttonElement.disabled = true;
+                setTimeout(() => {
+                    buttonElement.innerHTML = originalHTML;
+                    buttonElement.disabled = false;
+                }, 2000);
+            }).catch(err => {
+                console.error('লিংক কপি করা যায়নি: ', err);
+                alert('দুঃখিত, লিংক কপি করা সম্ভব হয়নি।');
+            });
+        }
+
+        function renderSinglePostPage(postId) {
+            const post = allPosts.find(p => p.id === postId);
+            const mainContentArea = document.getElementById('main-content-area');
+            
+            if (!post) {
+                mainContentArea.innerHTML = '<p>পোস্টটি পাওয়া যায়নি।</p>';
+                return;
+            }
+            
+            const timeAgo = getTimeAgo(post.timestamp);
+            let mediaContent = '';
+            if (post.videoUrl) {
+                mediaContent = createVideoEmbed(post.videoUrl);
+            } else if (post.imageUrl) {
+                mediaContent = `
+                <div class="post-image">
+                    <img src="${post.imageUrl}" alt="${post.title}">
+                </div>`;
+            }
+
+            const shareSection = `
+                <div class="share-section">
+                    <div class="share-title">এই খবরটি শেয়ার করুন:</div>
+                    <div class="share-buttons">
+                        <div class="share-btn fb-share" onclick="shareOnFacebook()">
+                            <i class="fab fa-facebook-f"></i> Facebook
+                        </div>
+                        <div class="share-btn wa-share" onclick="shareOnWhatsApp()">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </div>
+                        <div class="share-btn copy-link" onclick="copyLink(this)">
+                            <i class="fas fa-link"></i> লিংক কপি করুন
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            mainContentArea.innerHTML = `
+                <a href="#home" class="back-to-home"><i class="fas fa-arrow-left"></i> সব খবরে ফিরে যান</a>
+                <div class="single-post-page">
+                    <div class="post-header">
+                        <h1>${post.title}</h1>
+                        <div class="post-meta">${timeAgo} | ${post.category}</div>
+                    </div>
+                    ${mediaContent}
+                    <div class="post-content">
+                        <p>${post.content.replace(/\n/g, '<br>')}</p>
+                    </div>
+                    ${shareSection}
+                </div>
+            `;
+        }
+
+        async function displayNews() {
+            try {
+                if (allPosts.length === 0) {
+                    const snapshot = await db.collection('posts').orderBy('timestamp', 'desc').get();
+                    snapshot.forEach(doc => allPosts.push({ id: doc.id, ...doc.data() }));
+                }
+
+                if (allPosts.length > 0) {
+                    const breakingPosts = allPosts.filter(p => p.isBreaking).slice(0, 10);
+                    if (breakingPosts.length === 0) breakingPosts.push(...allPosts.slice(0, 5));
+                    document.getElementById('breaking-news-container').innerHTML = breakingPosts.map(p => `<a href="#post?id=${p.id}">${p.title}</a>`).join('');
+                    document.getElementById('latest-news-sidebar').innerHTML = allPosts.slice(0, 5).map(p => createPostHTML(p, 'sidebar')).join('');
+                    document.getElementById('popular-news-sidebar').innerHTML = allPosts.slice(5, 10).map(p => createPostHTML(p, 'sidebar')).join('');
+                }
+
+                const hash = window.location.hash;
+                if (hash && hash.includes('?category=')) {
+                    const category = decodeURIComponent(hash.split('=')[1]);
+                    renderCategoryPage(allPosts, category);
+                } else if (hash && hash.includes('post?id=')) {
+                    const postId = hash.split('=')[1];
+                    renderSinglePostPage(postId);
+                } else {
+                    renderHomePage(allPosts);
+                }
+
+            } catch (error) {
+                console.error("Error loading news:", error);
+                document.getElementById('main-content-area').innerHTML = '<p>খবর লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।</p>';
+            }
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const themeToggle = document.getElementById('themeToggle');
-            const body = document.body;
-            const skeletonLoader = document.getElementById('skeleton-loader');
-            const newsContentWrapper = document.getElementById('news-content-wrapper');
-            const featuredNewsContainer = document.getElementById('featured-news');
-            const standardNewsGrid = document.getElementById('standard-news-grid');
-            const emptyMessage = document.getElementById('empty-message');
+            const menuToggle = document.getElementById('menu-toggle');
+            const mainMenu = document.getElementById('main-menu');
+            const menuOverlay = document.getElementById('menu-overlay');
+            if(menuToggle) {
+                const toggleMenu = () => {
+                    mainMenu.classList.toggle('active');
+                    menuOverlay.classList.toggle('active');
+                };
+                menuToggle.addEventListener('click', toggleMenu);
+                menuOverlay.addEventListener('click', toggleMenu);
+            }
 
-            const mainContentView = document.getElementById('main-content-view');
-            const articleView = document.getElementById('article-view');
-            const articleDetailContent = document.getElementById('article-detail-content');
-            const backToHomeBtn = document.getElementById('back-to-home');
-            const breakingTextEl = document.getElementById('breakingText');
-            const categoryContainer = document.getElementById('category-buttons-container');
-            const backToTopBtn = document.getElementById('backToTopBtn');
-            
-            // --- Time Ago Function ---
-            const timeAgo = (timestamp) => {
-                if (!timestamp || !timestamp.seconds) return '';
+            const dateTimeElement = document.getElementById('current-date-time');
+            function updateDateTime() {
                 const now = new Date();
-                const past = new Date(timestamp.seconds * 1000);
-                const diffInSeconds = Math.floor((now - past) / 1000);
-                const diffInMinutes = Math.floor(diffInSeconds / 60);
-                const diffInHours = Math.floor(diffInMinutes / 60);
-                const diffInDays = Math.floor(diffInHours / 24);
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true };
+                dateTimeElement.textContent = `সাতক্ষীরা | ${now.toLocaleDateString('bn-BD', options)}`;
+            }
+            updateDateTime();
+            setInterval(updateDateTime, 30000); 
 
-                if (diffInDays > 0) {
-                    // If more than 24 hours, show date
-                    return new Intl.DateTimeFormat('bn-BD', { day: 'numeric', month: 'long', year: 'numeric' }).format(past);
-                } else if (diffInHours > 0) {
-                    return `${diffInHours} ঘণ্টা আগে`;
-                } else if (diffInMinutes > 0) {
-                    return `${diffInMinutes} মিনিট আগে`;
-                } else {
-                    return `মাত্র কয়েক সেকেন্ড আগে`;
+            document.body.addEventListener('click', function(event) {
+                if (event.target.closest('.post-link')) {
+                    const postContainer = event.target.closest('.single_post');
+                    if (postContainer) {
+                        window.location.hash = `post?id=${postContainer.getAttribute('data-id')}`;
+                    }
                 }
-            };
-
-            // --- Dark Mode Toggle ---
-            themeToggle.addEventListener('click', () => {
-                body.classList.toggle('dark-mode');
-                body.classList.toggle('light-mode');
-                themeToggle.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+                
+                if (event.target.closest('.main-menu a')) {
+                    if (mainMenu.classList.contains('active')) {
+                        mainMenu.classList.remove('active');
+                        menuOverlay.classList.remove('active');
+                    }
+                }
             });
             
-            // --- Helper function to create different card types ---
-            const createArticleCard = (doc, type) => {
-                const news = doc.data();
-                const time = timeAgo(news.timestamp);
-                const imageUrl = news.imageUrl || 'https://via.placeholder.com/600x400';
-
-                if (type === 'standard-card') {
-                    return `
-                        <div class="news-card standard-card" onclick="showArticleDetails('${doc.id}')">
-                            <div class="card-image-container">
-                                <img src="${imageUrl}" alt="${news.title}" loading="lazy">
-                            </div>
-                            <div class="card-content">
-                                <h3 class="card-title">${news.title}</h3>
-                                <div class="card-category">${news.category}</div>
-                                <div class="card-meta"><i class="fas fa-clock"></i>&nbsp;${time}</div>
-                            </div>
-                        </div>`;
-                } else { // For hero and secondary cards (overlapping text)
-                     return `
-                        <div class="news-card ${type}" onclick="showArticleDetails('${doc.id}')">
-                            <div class="card-image-container">
-                                <img src="${imageUrl}" alt="${news.title}" loading="lazy">
-                                <div class="card-category">${news.category}</div>
-                                <div class="card-content">
-                                    <h3 class="card-title">${news.title}</h3>
-                                    <div class="card-meta"><i class="fas fa-clock"></i>&nbsp;${time}</div>
-                                </div>
-                            </div>
-                        </div>`;
-                }
-            };
-
-            // --- Load News (Advanced Version with Featured/Standard Layout) ---
-            const loadNews = (category = "সব খবর") => {
-                skeletonLoader.style.display = 'grid'; // Show skeleton loader
-                newsContentWrapper.style.display = 'none'; // Hide actual content
-                emptyMessage.style.display = 'none';
-
-                let query = articlesCollection.orderBy('timestamp', 'desc');
-                if (category !== "সব খবর") {
-                    query = query.where('category', '==', category);
-                }
-
-                query.get().then(snapshot => {
-                    featuredNewsContainer.innerHTML = '';
-                    standardNewsGrid.innerHTML = '';
-                    
-                    if (snapshot.empty) {
-                        emptyMessage.style.display = 'block';
-                        skeletonLoader.style.display = 'none';
-                        return;
-                    }
-
-                    const articles = snapshot.docs;
-                    
-                    // Create Hero Article (if exists)
-                    if (articles[0]) {
-                        featuredNewsContainer.innerHTML += createArticleCard(articles[0], 'hero-card');
-                    }
-                    // Create Secondary Articles (if they exist)
-                    if (articles[1]) {
-                        featuredNewsContainer.innerHTML += createArticleCard(articles[1], 'secondary-card');
-                    }
-                     if (articles[2]) {
-                        featuredNewsContainer.innerHTML += createArticleCard(articles[2], 'secondary-card');
-                    }
-                    
-                    // Create Standard Grid Articles (slice from index 3)
-                    articles.slice(3).forEach(doc => {
-                        standardNewsGrid.innerHTML += createArticleCard(doc, 'standard-card');
-                    });
-
-                    skeletonLoader.style.display = 'none'; // Hide skeleton
-                    newsContentWrapper.style.display = 'block'; // Show actual content
-
-                }).catch(error => {
-                    console.error("Error fetching news: ", error);
-                    newsContentWrapper.style.display = 'none';
-                    skeletonLoader.style.display = 'none';
-                    emptyMessage.style.display = 'block';
-                    emptyMessage.textContent = 'খবর লোড করতে সমস্যা হয়েছে। দয়া করে Firestore Index তৈরি করেছেন কিনা তা নিশ্চিত করুন।';
-                });
-            };
-
-            // --- Show Full Article Details (with Share buttons) ---
-            window.showArticleDetails = (articleId) => {
-                articlesCollection.doc(articleId).get().then(doc => {
-                    if (doc.exists) {
-                        const news = doc.data();
-                        const currentUrl = window.location.origin + '?id=' + doc.id; // Example: Add ID to URL
-                        const shareText = encodeURIComponent(news.title + " - নিউজপোর্টাল");
-                        const imageUrl = news.imageUrl || 'https://via.placeholder.com/800x450';
-                        
-                        articleDetailContent.innerHTML = `
-                            <div class="article-header">
-                                <span class="card-category" style="position:relative; top:0; left:0; margin-bottom:1rem;">${news.category}</span>
-                                <h1 class="article-title">${news.title}</h1>
-                                <div class="article-meta">
-                                    <span><i class="fas fa-clock"></i>&nbsp;${timeAgo(news.timestamp)}</span>
-                                    <div class="share-buttons">
-                                        <strong>শেয়ার করুন:</strong>
-                                        <a href="https://www.facebook.com/sharer/sharer.php?u=${currentUrl}" target="_blank" aria-label="Facebook" class="facebook-share"><i class="fab fa-facebook-f"></i></a>
-                                        <a href="https://twitter.com/intent/tweet?url=${currentUrl}&text=${shareText}" target="_blank" aria-label="Twitter" class="twitter-share"><i class="fab fa-twitter"></i></a>
-                                        <a href="https://api.whatsapp.com/send?text=${shareText}%20${currentUrl}" target="_blank" aria-label="WhatsApp" class="whatsapp-share"><i class="fab fa-whatsapp"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <img src="${imageUrl}" alt="${news.title}" class="article-image">
-                            <div class="article-content">${news.content || 'বিস্তারিত পাওয়া যায়নি।'}</div>
-                        `;
-
-                        mainContentView.style.display = 'none';
-                        articleView.style.display = 'block';
-                        window.scrollTo(0, 0); // Scroll to top
-                    } else {
-                        alert("দুঃখিত, এই খবরটি খুঁজে পাওয়া যায়নি।");
-                        // Fallback to main view if article not found
-                        articleView.style.display = 'none';
-                        mainContentView.style.display = 'block';
-                    }
-                }).catch(error => {
-                    console.error("Error getting document:", error);
-                    alert("খবরটি লোড করতে সমস্যা হয়েছে।");
-                    articleView.style.display = 'none';
-                    mainContentView.style.display = 'block';
-                });
-            };
-
-            // --- Back Button Functionality ---
-            backToHomeBtn.addEventListener('click', () => {
-                articleView.style.display = 'none';
-                mainContentView.style.display = 'block';
-                window.scrollTo(0, 0);
-            });
-            
-            // --- Load and Set Categories ---
-            const categories = ["সব খবর", "জাতীয়", "আন্তর্জাতিক", "খেলাধুলা", "বিনোদন", "টেকনোলজি", "লাইফস্টাইল"];
-            categoryContainer.innerHTML = categories.map((cat, index) => 
-                `<button class="category-btn ${index === 0 ? 'active' : ''}" data-category="${cat}">${cat}</button>`
-            ).join('');
-            
-            document.querySelectorAll('.category-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    loadNews(button.getAttribute('data-category'));
-                });
-            });
-
-            // --- Load Breaking News ---
-            const loadBreakingNews = () => {
-                breakingNewsCollection.orderBy('timestamp', 'desc').limit(1).onSnapshot(snapshot => {
-                    if (!snapshot.empty) {
-                        const latestNews = snapshot.docs[0].data();
-                        breakingTextEl.textContent = latestNews.text;
-                    } else {
-                        breakingTextEl.textContent = "এখন কোনো ব্রেকিং নিউজ নেই।";
-                    }
-                }, err => {
-                    console.error("Error fetching breaking news: ", err);
-                    breakingTextEl.textContent = "ব্রেকিং নিউজ লোড করা যায়নি।";
-                });
-            };
-
-            // --- Back to Top Button ---
-            window.onscroll = () => {
-                if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                    backToTopBtn.style.display = "block";
-                } else {
-                    backToTopBtn.style.display = "none";
-                }
-            };
-            backToTopBtn.addEventListener('click', () => {
-                document.body.scrollTop = 0; // For Safari
-                document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-            });
-
-            // --- Initial Load ---
-            loadNews();
-            loadBreakingNews();
+            displayNews(); 
+            window.addEventListener('hashchange', displayNews);
         });
     </script>
+    
 </body>
 </html>
