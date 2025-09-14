@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>বর্তমান সাতক্ষীরা - বস্তুনিষ্ঠ সংবাদে অবিচল</title>
+
+    <!-- === Open Graph / Facebook Meta Tags Start === -->
+    <!-- এই ট্যাগগুলো ফেসবুক, হোয়াটসঅ্যাপ ও অন্যান্য সোশ্যাল মিডিয়ায় শেয়ার করার সময় ছবি ও শিরোনাম দেখাতে সাহায্য করে -->
+    <meta property="og:title" content="বর্তমান সাতক্ষীরা - বস্তুনিষ্ঠ সংবাদে অবিচল">
+    <meta property="og:description" content="সাতক্ষীরা জেলার সর্বশেষ সংবাদ পেতে ভিজিট করুন। বস্তুনিষ্ঠ সংবাদে আমরা অবিচল।">
+    <meta property="og:image" content="https://your-website.com/images/default-social-image.jpg"> <!-- আপনার ওয়েবসাইটের একটি ডিফল্ট ছবির লিংক দিন -->
+    <meta property="og:url" content="https://your-website-domain.com"> <!-- আপনার ওয়েবসাইটের মূল লিংক দিন -->
+    <meta property="og:type" content="website" />
+    <!-- === Open Graph / Facebook Meta Tags End === -->
+    
     <!-- স্টাইল এবং ফন্ট এর জন্য যা যা ছিল -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -485,8 +495,19 @@
             
             if (!post) {
                 mainContentArea.innerHTML = '<p>পোস্টটি পাওয়া যায়নি।</p>';
+                // ডিফল্ট মেটা ট্যাগ রিসেট করুন যদি প্রয়োজন হয়
+                document.title = 'বর্তমান সাতক্ষীরা - বস্তুনিষ্ঠ সংবাদে অবিচল';
                 return;
             }
+
+            // === মেটা ট্যাগ আপডেট করার কোড ===
+            document.title = `${post.title} | বর্তমান সাতক্ষীরা`;
+            document.querySelector('meta[property="og:title"]').setAttribute("content", post.title);
+            document.querySelector('meta[property="og:description"]').setAttribute("content", post.content.substring(0, 160) + "..."); // কন্টেন্টের প্রথম ১৬০ অক্ষর
+            document.querySelector('meta[property="og:image"]').setAttribute("content", post.imageUrl);
+            document.querySelector('meta[property="og:url"]').setAttribute("content", window.location.href);
+            document.querySelector('meta[property="og:type"]').setAttribute("content", "article");
+            // === মেটা ট্যাগ আপডেট শেষ ===
             
             const timeAgo = getTimeAgo(post.timestamp);
             let mediaContent = '';
@@ -556,6 +577,13 @@
                     renderSinglePostPage(postId);
                 } else {
                     renderHomePage(allPosts);
+                    // হোমপেজের জন্য মেটা ট্যাগগুলো ডিফল্ট অবস্থায় রিসেট করা
+                    document.title = 'বর্তমান সাতক্ষীরা - বস্তুনিষ্ঠ সংবাদে অবিচল';
+                    document.querySelector('meta[property="og:title"]').setAttribute("content", "বর্তমান সাতক্ষীরা - বস্তুনিষ্ঠ সংবাদে অবিচল");
+                    document.querySelector('meta[property="og:description"]').setAttribute("content", "সাতক্ষীরা জেলার সর্বশেষ সংবাদ পেতে ভিজিট করুন। বস্তুনিষ্ঠ সংবাদে আমরা অবিচল।");
+                    document.querySelector('meta[property="og:image"]').setAttribute("content", "https://your-website.com/images/default-social-image.jpg"); // আপনার ডিফল্ট ছবি
+                    document.querySelector('meta[property="og:url"]').setAttribute("content", "https://your-website-domain.com"); // আপনার মূল ডোমেইন
+                    document.querySelector('meta[property="og:type"]').setAttribute("content", "website");
                 }
 
             } catch (error) {
